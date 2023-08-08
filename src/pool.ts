@@ -4,7 +4,7 @@ import type { Ref } from '@vue/runtime-core'
 import { ref, watchEffect } from '@vue/runtime-core'
 import type { RoutineInfo } from './types'
 import { parseIntervalToMs, sleep } from './utils'
-import { log } from './log'
+import { logger } from './log'
 import { pool } from './index'
 
 interface PoolImpl {
@@ -41,7 +41,7 @@ export class Pool implements PoolImpl {
         _interval = parseIntervalToMs(interval)
       }
       catch (e: unknown) {
-        log.appendLine(`the value of interval config for ${name} is not valid`)
+        logger.appendLine(`the value of interval config for ${name} is not valid`)
         return
       }
 

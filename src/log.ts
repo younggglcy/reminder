@@ -1,3 +1,3 @@
 import { window } from 'vscode'
 
-export const log = window.createOutputChannel('Reminder')
+export const logger = window.createOutputChannel('Reminder')

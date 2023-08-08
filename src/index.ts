@@ -1,7 +1,7 @@
 import type { ExtensionContext } from 'vscode'
 import { commands, window, workspace } from 'vscode'
 import { version } from '../package.json'
-import { log } from './log'
+import { logger } from './log'
 import type { RoutineInfo } from './types'
 import { Pool } from './pool'
 import { hrToMs, intervalRe, minToMs } from './utils'
@@ -9,12 +9,12 @@ import { hrToMs, intervalRe, minToMs } from './utils'
 export const pool = new Pool()
 
 export function activate(ext: ExtensionContext) {
-  log.appendLine(`[${new Date().toLocaleTimeString()}] Reminder for VS Code, v${version}\n`)
+  logger.appendLine(`[${new Date().toLocaleTimeString()}] Reminder for VS Code, v${version}\n`)
 
   const configs = workspace.getConfiguration('reminder')
   const disabled = configs.get('disable', false)
   if (disabled) {
-    log.appendLine('Reminder was disabled.')
+    logger.appendLine('Reminder was disabled.')
     return
   }
 
