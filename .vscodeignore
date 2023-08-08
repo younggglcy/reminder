@@ -3,3 +3,7 @@
 node_modules/**
 **/tsconfig.json
 **/*.ts
+.eslintrc
+.gitignore
+.DS_Store
+.pnpm-lock.yaml
