@@ -12,12 +12,14 @@
     "type": "git",
     "url": "https://github.com/GODLiangCY/reminder"
   },
+  "homepage": "https://github.com/GODLiangCY/reminder",
   "bugs": {
     "url": "https://github.com/GODLiangCY/reminder/issues"
   },
   "categories": [
     "Other"
   ],
+  "preview": false,
   "main": "./dist/index.js",
   "icon": "reminder.png",
   "engines": {
