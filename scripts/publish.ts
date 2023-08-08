@@ -24,7 +24,7 @@ async function publish() {
   await execaCommand('git add .')
   await execaCommand('git commit --amend', { stdio: 'inherit' })
   await execaCommand(`git tag -a ${newVersion} -m v${newVersion}`)
-  await execaCommand('git push origin main')
+  await execaCommand('git push origin main --tags')
 }
 
 publish()
