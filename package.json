@@ -67,7 +67,7 @@
     "lint": "eslint .",
     "lint:fix": "pnpm lint --fix",
     "changelog": "conventional-changelog -p angular -i CHANGELOG.md -s",
-    "publish": "bumpp && vsce publish --no-dependencies"
+    "publish": "bumpp && vsce publish --no-dependencies --allow-star-activation"
   },
   "devDependencies": {
     "@antfu/eslint-config": "^0.40.2",
