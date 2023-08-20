@@ -62,12 +62,12 @@
     }
   },
   "scripts": {
-    "vscode:prepublish": "pnpm lint:fix && pnpm build",
+    "vscode:prepublish": "pnpm changelog && pnpm build",
     "build": "tsup",
     "lint": "eslint .",
     "lint:fix": "pnpm lint --fix",
     "changelog": "conventional-changelog -p angular -i CHANGELOG.md -s",
-    "publish": "esno ./scripts/publish.ts"
+    "publish": "bumpp && vsce publish --no-dependencies"
   },
   "devDependencies": {
     "@antfu/eslint-config": "^0.40.2",
@@ -80,7 +80,17 @@
     "eslint": "^8.46.0",
     "esno": "^0.17.0",
     "execa": "^7.2.0",
+    "lint-staged": "^14.0.0",
+    "simple-git-hooks": "^2.9.0",
     "tsup": "^7.2.0",
     "typescript": "^5.1.6"
+  },
+  "simple-git-hooks": {
+    "pre-commit": "npx lint-staged"
+  },
+  "lint-staged": {
+    "*.{ts,json,md}": [
+      "eslint --cache --fix"
+    ]
   }
 }
