@@ -23,7 +23,7 @@
   "main": "./dist/index.js",
   "icon": "reminder.png",
   "engines": {
-    "vscode": "^1.73.0"
+    "vscode": "^1.81.0"
   },
   "activationEvents": [
     "*"
