@@ -1,8 +1,8 @@
 {
   "publisher": "younggglcy",
-  "name": "routine-reminder",
+  "name": "simple-routine-reminder",
   "packageManager": "pnpm@8.6.8",
-  "displayName": "Reminder",
+  "displayName": "Routine Reminder",
   "version": "0.2.4",
   "private": true,
   "description": "Just a simple reminder extension for VS Code",
