@@ -42,54 +42,7 @@
 
 设置一些简单的配置后,你就能按自己所需使用 Reminder
 
-1. `reminder.disable`
-
-   - Type: `boolean`
-
-   - Default: `false`
-
-     即使你有一个 Reminder, 有时候你也不希望它打扰你.设置 `reminder.disable` 会彻底禁用 Reminder
-
-2. `reminder.routine`
-
-   - Type: `RoutineInfo[]`
-
-     ```typescript
-     export interface RoutineInfo {
-       /**
-        * Name for routine, will be shown as the title of infomation
-        */
-       name: string
-     
-       /**
-        * Interval for routine.
-        *
-        * If it's a number, then the unit is **minutes**.
-        * And if it's a plain string, the unit is also minutes.
-        * Otherwise, the unit must be one of ['ms', 's', 'sec', 'secs', 'm', 'min', 'mins',
-        * 'h', 'hr', 'hrs']
-        */
-       interval: number | string
-     
-       /**
-        * Description of routine, will be shown as the main content of infomation
-        */
-       description?: string
-     
-       /**
-        * Remind in silent version
-        *
-        * By default, notification will be shown in a modal.
-        * Setting true will notify as a message.
-        * @default false
-        */
-       silent?: boolean
-     }
-     ```
-     
-   - Default: `[]`
-   
-     每隔一段特定的时间, Reminder 会提醒你这些事情
+请参考 [types.ts](./src/types.ts)
 
 ## 命令
 

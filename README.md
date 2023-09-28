@@ -43,53 +43,7 @@ And for every 15 minutes, you'll have a notification as below
 
 After setting up some simple configurations, you can start using Reminder as you see fit.
 
-1. `reminder.disable`
-
-   - Type: `boolean`
-   - Default: `false`
-
-   Even if you have a Reminder, sometimes you don't want it to bother you. Setting `reminder.disable: true` will disable Reminder totally.
-
-2. `reminder.routine`
-
-   - Type: `RoutineInfo[]`
-
-     ```typescript
-     export interface RoutineInfo {
-       /**
-        * Name for routine, will be shown as the title of infomation
-        */
-       name: string
-     
-       /**
-        * Interval for routine.
-        *
-        * If it's a number, then the unit is **minutes**.
-        * And if it's a plain string, the unit is also minutes.
-        * Otherwise, the unit must be one of ['ms', 's', 'sec', 'secs', 'm', 'min', 'mins',
-        * 'h', 'hr', 'hrs']
-        */
-       interval: number | string
-     
-       /**
-        * Description of routine, will be shown as the main content of infomation
-        */
-       description?: string
-     
-       /**
-        * Remind in silent version
-        *
-        * By default, notification will be shown in a modal.
-        * Setting true will notify as a message.
-        * @default false
-        */
-       silent?: boolean
-     }
-     ```
-     
-   - Default: `[]`
-   
-     Routines that Reminder will remind you of what you need to do at specific intervals.
+Please refer to [types.ts](./src/types.ts) under /src floder for more details.
 
 ## Command
 
