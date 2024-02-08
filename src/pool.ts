@@ -9,9 +9,9 @@ import { pool } from './index'
 
 interface PoolImpl {
   isStoped: Ref<boolean>
-  register(routine: RoutineInfo[]): void
-  stop(): void
-  recover(): void
+  register: (routine: RoutineInfo[]) => void
+  stop: () => void
+  recover: () => void
 }
 
 export class Pool implements PoolImpl {

@@ -15,7 +15,6 @@
 <a href="https://github.com/GODLiangCY/reminder/blob/main/README-zh.md">中文</a>
 </p>
 
-
 ## 关于
 
 提醒你一些事情

@@ -1,16 +1,16 @@
 {
   "compilerOptions": {
     "target": "ES2020",
-    "module": "CommonJS",
     "lib": ["ESNext"],
+    "module": "CommonJS",
     "moduleResolution": "node",
-    "esModuleInterop": true,
+    "resolveJsonModule": true,
     "strict": true,
     "strictNullChecks": true,
-    "skipDefaultLibCheck": true,
-    "skipLibCheck": true,
     "sourceMap": true,
-    "resolveJsonModule": true
+    "esModuleInterop": true,
+    "skipDefaultLibCheck": true,
+    "skipLibCheck": true
   },
   "include": [
     "src"

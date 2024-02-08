@@ -1,18 +1,18 @@
 {
   "publisher": "younggglcy",
   "name": "simple-routine-reminder",
-  "packageManager": "pnpm@8.6.8",
   "displayName": "Routine Reminder",
   "version": "0.2.5",
   "private": true,
+  "packageManager": "pnpm@8.6.8",
   "description": "Just a simple reminder extension for VS Code",
   "author": "GODLiangCY",
   "license": "MIT",
+  "homepage": "https://github.com/GODLiangCY/reminder",
   "repository": {
     "type": "git",
     "url": "https://github.com/GODLiangCY/reminder"
   },
-  "homepage": "https://github.com/GODLiangCY/reminder",
   "bugs": {
     "url": "https://github.com/GODLiangCY/reminder/issues"
   },
@@ -70,20 +70,20 @@
     "publish": "bumpp && vsce publish --no-dependencies --allow-star-activation"
   },
   "devDependencies": {
-    "@antfu/eslint-config": "^0.40.2",
-    "@types/node": "^20.4.8",
-    "@types/vscode": "^1.81.0",
-    "@vue/runtime-core": "^3.3.4",
-    "bumpp": "^9.1.1",
+    "@antfu/eslint-config": "^2.6.4",
+    "@types/node": "^20.11.16",
+    "@types/vscode": "^1.86.0",
+    "@vue/runtime-core": "^3.4.16",
+    "bumpp": "^9.3.0",
     "chalk": "^5.3.0",
-    "conventional-changelog-cli": "^3.0.0",
-    "eslint": "^8.46.0",
-    "esno": "^0.17.0",
-    "execa": "^7.2.0",
-    "lint-staged": "^14.0.0",
+    "conventional-changelog-cli": "^4.1.0",
+    "eslint": "^8.56.0",
+    "esno": "^4.0.0",
+    "execa": "^8.0.1",
+    "lint-staged": "^15.2.2",
     "simple-git-hooks": "^2.9.0",
-    "tsup": "^7.2.0",
-    "typescript": "^5.1.6"
+    "tsup": "^8.0.1",
+    "typescript": "^5.3.3"
   },
   "simple-git-hooks": {
     "pre-commit": "npx lint-staged"
