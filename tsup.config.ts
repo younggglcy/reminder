@@ -4,4 +4,5 @@ export default defineConfig({
   entry: ['src/index.ts'],
   external: ['vscode'],
   format: ['cjs'],
+  clean: true,
 })

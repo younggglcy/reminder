@@ -4,9 +4,9 @@ import { version } from '../package.json'
 import { logger } from './log'
 import type { RoutineInfo } from './types'
 import { Pool } from './pool'
-import { hrToMs, intervalRe, minToMs } from './utils'
+import { hrToMs, intervalRe, minToMs } from './constants'
 
-export const pool = new Pool()
+let pool: Pool
 
 export function activate(ext: ExtensionContext) {
   logger.appendLine(`[${new Date().toLocaleTimeString()}] Reminder for VS Code, v${version}\n`)
@@ -14,10 +14,10 @@ export function activate(ext: ExtensionContext) {
   const configs = workspace.getConfiguration('reminder')
 
   const { subscriptions } = ext
-  const { showInputBox, showQuickPick, showInformationMessage } = window
+  const { showInputBox, showQuickPick } = window
 
   const routines = configs.get<RoutineInfo[]>('routine', [])
-  pool.register(routines)
+  pool = Pool.from({ routines })
 
   const disposeStop = commands.registerCommand('reminder.stopReminding', () => {
     pool.stop()
@@ -37,9 +37,9 @@ export function activate(ext: ExtensionContext) {
       return
 
     const pickResult = await showQuickPick([
-      '5mins later',
-      '15mins later',
-      '30mins later',
+      '5 mins later',
+      '15 mins later',
+      '30 mins later',
       '1 hour later',
       '2 hours later',
       'Custom',
@@ -47,18 +47,21 @@ export function activate(ext: ExtensionContext) {
       placeHolder: 'On when?',
       title: 'Time',
     }).then((item) => {
+      if (!item)
+        return
       if (item === 'Custom') {
         return showInputBox({
           placeHolder: 'How many minutes later?',
-          validateInput(value) {
+          validateInput(value: string) {
             if (!value.match(/^\d+\.?\d*$/))
               return 'value should be a number'
           },
         }).then(res => Number(res) * minToMs)
       }
 
-      const [, val, suffix] = item.match(intervalRe)
-      if (suffix.match('hour'))
+      const matches = item.match(intervalRe)!
+      const [, val, suffix] = matches
+      if (['hour', 'hours'].some(val => suffix.match(val)))
         return hrToMs * Number(val)
       else return minToMs * Number(val)
     })
@@ -70,12 +73,15 @@ export function activate(ext: ExtensionContext) {
       placeHolder: 'Any detailed descriptions?',
     })
 
-    setTimeout(() => {
-      showInformationMessage(name, {
+    pool.addRemindTask({
+      ms: pickResult,
+      name,
+      ops: {
         modal: true,
-        detail: `${desc ? `${desc}\n` : ''}` + `Was setted at ${new Date().toLocaleTimeString()}`,
-      })
-    }, pickResult)
+        detail: `${desc ? `${desc}\n` : ''}` + `setted at ${new Date().toLocaleTimeString()}`,
+      },
+      once: true,
+    })
   })
 
   subscriptions.push(disposeStop)
@@ -83,4 +89,7 @@ export function activate(ext: ExtensionContext) {
   subscriptions.push(disposeOnce)
 }
 
-export function deactivate() {}
+export function deactivate() {
+  if (pool)
+    pool.dispose()
+}

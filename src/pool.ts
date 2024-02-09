@@ -1,66 +1,103 @@
 import type { MessageOptions } from 'vscode'
-import { window } from 'vscode'
-import type { Ref } from '@vue/runtime-core'
-import { ref, watchEffect } from '@vue/runtime-core'
+import { window, workspace } from 'vscode'
+import { isEqual } from 'lodash-es'
 import type { RoutineInfo } from './types'
-import { parseIntervalToMs, sleep } from './utils'
-import { logger } from './log'
-import { pool } from './index'
+import { parseIntervalToMs } from './utils'
 
 interface PoolImpl {
-  isStoped: Ref<boolean>
-  register: (routine: RoutineInfo[]) => void
   stop: () => void
   recover: () => void
 }
 
-export class Pool implements PoolImpl {
-  isStoped = ref(false)
+interface PoolProps {
+  routines: RoutineInfo[]
+}
 
-  register(routines: RoutineInfo[]) {
-    this.#_register(routines)
+interface TaskInfo {
+  name: string
+  ops: MessageOptions
+  ms: number
+  once?: boolean
+}
+
+export class Pool implements PoolImpl {
+  public static from(cfg: PoolProps) {
+    const instance = new Pool(cfg)
+    return instance
+  }
+
+  private _routines: RoutineInfo[]
+  private tasks: NodeJS.Timeout[]
+
+  private constructor(cfg: PoolProps) {
+    const { routines } = cfg
+    this._routines = routines
+    this.tasks = this._routines.map(routineInfo => this.composeRemindTask(routineInfo)).filter(Boolean) as NodeJS.Timeout[]
+  }
+
+  private parseRoutineInfo(info: RoutineInfo) {
+    const { interval, name, description, silent } = info
+    const ms = parseIntervalToMs(interval)
+    if (ms <= 0)
+      return
+    const ops: MessageOptions = { modal: !silent }
+    if (description)
+      Object.assign(ops, { detail: description } as MessageOptions)
+    return {
+      name,
+      ops,
+      ms,
+    } as TaskInfo
+  }
+
+  private dispatchTask(task: TaskInfo) {
+    const { name, ops, ms, once } = task
+    const id = setTimeout(() => {
+      window.showInformationMessage(name, ops, 'OK', 'Stop reminding me in the rest time')
+        .then((val) => {
+          clearTimeout(id)
+          this.tasks.splice(
+            this.tasks.indexOf(id),
+            1,
+          )
+          if (val !== 'Stop reminding me in the rest time' && !once) {
+            const taskId = this.dispatchTask(task)
+            if (taskId)
+              this.tasks.push(taskId)
+          }
+        })
+    }, ms)
+    if (!once)
+      return id
+  }
+
+  private composeRemindTask(info: RoutineInfo) {
+    const taskInfo = this.parseRoutineInfo(info)
+    if (!taskInfo)
+      return
+    return this.dispatchTask(taskInfo)
   }
 
   stop() {
-    this.isStoped.value = true
+    this.tasks.forEach(id => clearTimeout(id))
   }
 
   recover() {
-    this.isStoped.value = false
+    const userConfig = workspace.getConfiguration('reminder').get<RoutineInfo[]>('routine', [])
+    if (!isEqual(
+      this._routines,
+      userConfig,
+    ))
+      this._routines = userConfig
+
+    this.tasks = this._routines.map(routineInfo => this.composeRemindTask(routineInfo)).filter(Boolean) as NodeJS.Timeout[]
   }
 
-  #_register(routines: RoutineInfo[]) {
-    routines.forEach((routine) => {
-      const { interval, name, description, silent } = routine
-      const ops: MessageOptions = { modal: !silent }
-      if (description)
-        Object.assign(ops, { detail: description } as MessageOptions)
+  dispose() {
+    this.tasks.forEach(id => clearTimeout(id))
+  }
 
-      let _interval: undefined | number
-      try {
-        _interval = parseIntervalToMs(interval)
-      }
-      catch (e: unknown) {
-        logger.appendLine(`the value of interval config for ${name} is not valid`)
-        return
-      }
-
-      const remind = async () => {
-        await sleep(_interval)
-
-        await window.showInformationMessage(name, ops, 'OK', 'Stop reminding me in the rest time').then((res) => {
-          if (res !== 'Stop reminding me in the rest time')
-            remind()
-
-          else
-            pool.stop()
-        })
-      }
-
-      watchEffect(() => {
-        if (!this.isStoped.value)
-          remind()
-      })
-    })
+  addRemindTask(task: TaskInfo) {
+    this.dispatchTask(task)
   }
 }

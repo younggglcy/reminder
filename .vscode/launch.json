@@ -3,6 +3,7 @@
   "configurations": [
     {
       "args": [
+        "--disable-extensions",
         "--extensionDevelopmentPath=${workspaceFolder}"
       ],
       "name": "Launch Extension",

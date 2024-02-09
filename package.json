@@ -16,6 +16,9 @@
   "bugs": {
     "url": "https://github.com/GODLiangCY/reminder/issues"
   },
+  "keywords": [
+    "reminder"
+  ],
   "categories": [
     "Other"
   ],
@@ -26,7 +29,7 @@
     "vscode": "^1.81.0"
   },
   "activationEvents": [
-    "*"
+    "onStartupFinished"
   ],
   "contributes": {
     "commands": [
@@ -58,7 +61,10 @@
                 "type": "string"
               },
               "interval": {
-                "type": ["number", "string"]
+                "type": [
+                  "number",
+                  "string"
+                ]
               },
               "description": {
                 "type": "string"
@@ -69,7 +75,10 @@
               }
             },
             "type": "object",
-            "required": ["name", "interval"]
+            "required": [
+              "name",
+              "interval"
+            ]
           }
         }
       }
@@ -81,20 +90,18 @@
     "lint": "eslint .",
     "lint:fix": "pnpm lint --fix",
     "changelog": "conventional-changelog -p angular -i CHANGELOG.md -s",
-    "publish": "bumpp && vsce publish --no-dependencies --allow-star-activation"
+    "publish": "bumpp && vsce publish --no-dependencies"
   },
   "devDependencies": {
     "@antfu/eslint-config": "^2.6.4",
+    "@types/lodash-es": "^4.17.12",
     "@types/node": "^20.11.16",
-    "@types/vscode": "^1.86.0",
-    "@vue/runtime-core": "^3.4.16",
+    "@types/vscode": "^1.81.0",
     "bumpp": "^9.3.0",
-    "chalk": "^5.3.0",
     "conventional-changelog-cli": "^4.1.0",
     "eslint": "^8.56.0",
-    "esno": "^4.0.0",
-    "execa": "^8.0.1",
     "lint-staged": "^15.2.2",
+    "lodash-es": "^4.17.21",
     "simple-git-hooks": "^2.9.0",
     "tsup": "^8.0.1",
     "typescript": "^5.3.3"
