@@ -49,11 +49,6 @@
     "configuration": {
       "title": "Reminder",
       "properties": {
-        "reminder.disable": {
-          "type": "boolean",
-          "default": false,
-          "description": "Disable this Reminder extension"
-        },
         "reminder.routine": {
           "type": "array",
           "markdownDescription": "Routines that Reminder will remind you of what you need to do at specific intervals.\n\nSee [Readme](https://github.com/GODLiangCY/reminder/blob/main/README.md) for more details."

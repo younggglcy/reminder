@@ -12,11 +12,6 @@ export function activate(ext: ExtensionContext) {
   logger.appendLine(`[${new Date().toLocaleTimeString()}] Reminder for VS Code, v${version}\n`)
 
   const configs = workspace.getConfiguration('reminder')
-  const disabled = configs.get('disable', false)
-  if (disabled) {
-    logger.appendLine('Reminder was disabled.')
-    return
-  }
 
   const { subscriptions } = ext
   const { showInputBox, showQuickPick, showInformationMessage } = window
