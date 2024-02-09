@@ -51,7 +51,26 @@
       "properties": {
         "reminder.routine": {
           "type": "array",
-          "markdownDescription": "Routines that Reminder will remind you of what you need to do at specific intervals.\n\nSee [Readme](https://github.com/GODLiangCY/reminder/blob/main/README.md) for more details."
+          "markdownDescription": "Routines that Reminder will remind you of what you need to do at specific intervals.\n\nSee [Readme](https://github.com/GODLiangCY/reminder/blob/main/README.md) for more details.",
+          "items": {
+            "properties": {
+              "name": {
+                "type": "string"
+              },
+              "interval": {
+                "type": ["number", "string"]
+              },
+              "description": {
+                "type": "string"
+              },
+              "silent": {
+                "type": "boolean",
+                "default": false
+              }
+            },
+            "type": "object",
+            "required": ["name", "interval"]
+          }
         }
       }
     }
